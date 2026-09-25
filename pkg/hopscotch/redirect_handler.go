@@ -105,6 +105,14 @@ func cleanUrl(url string) string {
 }
 
 func (handler RedirectHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	path := r.URL.RequestURI()
+
+	// healthcheck
+	if strings.HasPrefix(path, "/_hopscotch/health") {
+		w.WriteHeader(http.StatusOK)
+		_, _ = w.Write([]byte("OK"))
+		return
+	}
 
 	entry, ok := handler.Rules[r.Host]
 	if !ok {
@@ -121,8 +129,6 @@ func (handler RedirectHandler) ServeHTTP(w http.ResponseWriter, r *http.Request)
 	if proto := r.Header.Get("X-Forwarded-Proto"); proto != "" {
 		scheme = proto
 	}
-
-	path := r.URL.RequestURI()
 
 	target := fmt.Sprintf("%s://%s%s", scheme, entry.To, path)
 
