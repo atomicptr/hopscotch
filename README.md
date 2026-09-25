@@ -2,6 +2,18 @@
 
 Simple application for redirecting multiple urls from one host to another, configured completely via env vars
 
+## Install
+
+Run via Docker using:
+
+```bash
+$ docker run \
+    -e HOPSCOTCH_REDIRECT_EXAMPLE_COM_FROM=example.com \
+    -e HOPSCOTCH_REDIRECT_EXAMPLE_COM_TO=atomicptr.dev \
+    -p 8080:80 \
+    ghcr.io/atomicptr/hopscotch
+```
+
 ## Configuration
 
 Please be sure to pick a unique `{NAME}` for every entry
